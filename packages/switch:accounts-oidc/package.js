@@ -1,5 +1,5 @@
 Package.describe({
-  summary: "Login service for OpenID Connect (OIDC) accounts",
+  summary: "OpenID Connect (OIDC) for Meteor accounts",
   version: "1.0.0",
   name: "switch:accounts-oidc",
   git: "https://github.com/switch-ch/meteor-accounts-oidc.git",
