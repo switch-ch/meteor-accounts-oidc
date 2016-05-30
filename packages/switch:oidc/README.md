@@ -1,3 +1,3 @@
 # switch:oidc package
 
-An implementation of OpenID Connect Login flow
+A Meteor implementation of OpenID Connect Login flow

@@ -1,3 +1,3 @@
-# switch:accounts-oidc
+# switch:accounts-oidc package
 
-A login service for OpenID Connect
+A Meteor login service for OpenID Connect (OIDC).
