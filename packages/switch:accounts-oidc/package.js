@@ -1,6 +1,9 @@
 Package.describe({
   summary: "Login service for OpenID Connect (OIDC) accounts",
   version: "1.0.0"
+  name: "switch:accounts-oidc",
+  git: "https://github.com/switch-ch/meteor-accounts-oidc.git",
+
 });
 
 Package.onUse(function(api) {
