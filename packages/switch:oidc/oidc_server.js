@@ -2,7 +2,7 @@ Oidc = {};
 
 OAuth.registerService('oidc', 2, null, function(query) {
 
-  var debug = true;
+  var debug = false;
   var token = getToken(query);
   //console.log('XXX: register token:', token);
 
@@ -39,7 +39,8 @@ if (Meteor.release) {
 }
 
 var getToken = function (query) {
-  var config = getConfiguration()
+  var debug = false;
+  var config = getConfiguration();
   var serverTokenEndpoint = config.serverUrl + config.tokenEndpoint;
   var response;
 
@@ -54,10 +55,10 @@ var getToken = function (query) {
         params: {
           code:           query.code,
           client_id:      config.clientId,
-          client_secret:  OAuth.openSecret(config.clientSecret),
+          client_secret:  OAuth.openSecret(config.secret),
           redirect_uri:   OAuth._redirectUri('oidc', config),
           grant_type:     'authorization_code',
-          state:          query.state,
+          state:          query.state
         }
       }
     );
@@ -69,13 +70,14 @@ var getToken = function (query) {
     // if the http response was a json object with an error attribute
     throw new Error("Failed to complete handshake with OIDC " + serverTokenEndpoint + ": " + response.data.error);
   } else {
-    //console.log('XXX: token response: ', response);
+    if (debug) console.log('XXX: getToken response: ', response.data);
     return response.data;
   }
 };
 
 var getUserInfo = function (accessToken) {
-  var config = getConfiguration()
+  var debug = false;
+  var config = getConfiguration();
   var serverUserinfoEndpoint = config.serverUrl + config.userinfoEndpoint;
   var response;
   try {
@@ -94,7 +96,7 @@ var getUserInfo = function (accessToken) {
     throw _.extend(new Error("Failed to fetch userinfo from OIDC " + serverUserinfoEndpoint + ": " + err.message),
                    {response: err.response});
   }
-  //console.log('XXX: userinfo response: ', response);
+  if (debug) console.log('XXX: getUserInfo response: ', response.data);
   return response.data;
 };
 

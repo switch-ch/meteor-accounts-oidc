@@ -41,7 +41,7 @@ You can manually configure this package by upserting the service configuration o
 The following service configuration are available:
 
 * `clientId`: OIDC client identifier
-* `clientSecret`: OIDC client shared secret
+* `secret`: OIDC client shared secret
 * `serverUrl`: URL of the OIDC server. e.g. `https://openid.example.org:8443`
 * `authorizationEndpoint`: Endpoint of the OIDC authorization service, e.g. `/oidc/authorize`
 * `tokenEndpoint`: Endpoint of the OIDC token service, e.g. `/oidc/token`
@@ -60,7 +60,7 @@ if (Meteor.isServer) {
         $set: {
           loginStyle: 'redirect',
           clientId: 'my-client-id-registered-with-the-oidc-server',
-          clientSecret: 'my-client-shared-secret',
+          secret: 'my-client-shared-secret',
           serverUrl: 'https://openid.example.org',
           authorizationEndpoint: '/oidc/authorize',
           tokenEndpoint: '/oidc/token',
