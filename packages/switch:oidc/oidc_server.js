@@ -2,6 +2,7 @@ Oidc = {};
 
 OAuth.registerService('oidc', 2, null, function(query) {
 
+  var debug = true;
   var token = getToken(query);
   //console.log('XXX: register token:', token);
 
@@ -9,7 +10,7 @@ OAuth.registerService('oidc', 2, null, function(query) {
   var expiresAt = (+new Date) + (1000 * parseInt(token.expires_in, 10));
 
   var userinfo = getUserInfo(accessToken);
-  //console.log('XXX: userinfo:', userinfo);
+  if (debug) console.log('XXX: userinfo:', userinfo);
 
   var serviceData = {};
   serviceData.id = userinfo.id || userinfo.sub;
@@ -19,12 +20,12 @@ OAuth.registerService('oidc', 2, null, function(query) {
   serviceData.email = userinfo.email;
   if (token.refresh_token)
     serviceData.refreshToken = token.refresh_token;
-  //console.log('XXX: serviceData:', serviceData);
+  if (debug) console.log('XXX: serviceData:', serviceData);
 
   var profile = {};
   profile.name = userinfo.name;
   profile.email = userinfo.email;
-  //console.log('XXX: profile:', profile);
+  if (debug) console.log('XXX: profile:', profile);
 
   return {
     serviceData: serviceData,
