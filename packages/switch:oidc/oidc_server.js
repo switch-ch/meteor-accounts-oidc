@@ -3,34 +3,32 @@ Oidc = {};
 OAuth.registerService('oidc', 2, null, function(query) {
 
   var token = getToken(query);
-  console.log('XXX: register token:', token);
+  //console.log('XXX: register token:', token);
 
   var accessToken = token.access_token;
   var expiresAt = (+new Date) + (1000 * parseInt(token.expires_in, 10));
 
   var userinfo = getUserInfo(accessToken);
-  console.log('XXX: register userinfo:', userinfo);
+  //console.log('XXX: userinfo:', userinfo);
 
   var serviceData = {};
   serviceData.id = userinfo.id || userinfo.sub;
   serviceData.username = userinfo.username || userinfo.preferred_username;
   serviceData.accessToken = OAuth.sealSecret(accessToken);
   serviceData.expiresAt = expiresAt;
-
-  if (userinfo.email)
-      serviceData.email = userinfo.email;
+  serviceData.email = userinfo.email;
   if (token.refresh_token)
     serviceData.refreshToken = token.refresh_token;
+  //console.log('XXX: serviceData:', serviceData);
 
-  console.log('XXX: serviceData:', serviceData);
+  var profile = {};
+  profile.name = userinfo.name;
+  profile.email = userinfo.email;
+  //console.log('XXX: profile:', profile);
 
   return {
     serviceData: serviceData,
-    options: {
-      profile: {
-        name: userinfo.id || userinfo.sub,
-      }
-    }
+    options: { profile: profile }
   };
 });
 
