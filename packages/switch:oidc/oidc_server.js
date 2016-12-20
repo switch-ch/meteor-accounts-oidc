@@ -85,10 +85,8 @@ var getUserInfo = function (accessToken) {
       serverUserinfoEndpoint,
       {
         headers: {
-          "User-Agent": userAgent
-        },
-        params: {
-          access_token: accessToken
+          "User-Agent": userAgent,
+          "Authorization": "Bearer " + accessToken
         }
       }
     );
