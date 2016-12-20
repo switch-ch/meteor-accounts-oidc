@@ -81,7 +81,7 @@ var getUserInfo = function (accessToken) {
   var serverUserinfoEndpoint = config.serverUrl + config.userinfoEndpoint;
   var response;
   try {
-    response = HTTP.post(
+    response = HTTP.get(
       serverUserinfoEndpoint,
       {
         headers: {
