@@ -46,6 +46,7 @@ The following service configuration are available:
 * `authorizationEndpoint`: Endpoint of the OIDC authorization service, e.g. `/oidc/authorize`
 * `tokenEndpoint`: Endpoint of the OIDC token service, e.g. `/oidc/token`
 * `userinfoEndpoint`: Endpoint of the OIDC userinfo service, e.g. `/oidc/userinfo`
+* `idTokenWhitelistFields`: A list of fields from IDToken to be added to Meteor.user().services.oidc object
 
 ### Project Configuration
 
@@ -65,6 +66,7 @@ if (Meteor.isServer) {
           authorizationEndpoint: '/oidc/authorize',
           tokenEndpoint: '/oidc/token',
           userinfoEndpoint: '/oidc/userinfo',
+          idTokenWhitelistFields: []
         }
       }
     );

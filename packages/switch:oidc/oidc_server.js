@@ -18,6 +18,13 @@ OAuth.registerService('oidc', 2, null, function(query) {
   serviceData.accessToken = OAuth.sealSecret(accessToken);
   serviceData.expiresAt = expiresAt;
   serviceData.email = userinfo.email;
+
+  if(accessToken) {
+    var tokenContent = getTokenContent(accessToken);
+    var fields = _.pick(tokenContent, getConfiguration().idTokenWhitelistFields);
+    _.extend(serviceData, fields);
+  }
+
   if (token.refresh_token)
     serviceData.refreshToken = token.refresh_token;
   if (debug) console.log('XXX: serviceData:', serviceData);
@@ -106,6 +113,23 @@ var getConfiguration = function () {
   return config;
 };
 
+var getTokenContent=function (token) {
+  var content = null;
+  if (token) {
+    try {
+      var parts = token.split('.');
+      var header = JSON.parse(new Buffer(parts[0], 'base64').toString());
+      content = JSON.parse(new Buffer(parts[1], 'base64').toString());
+      var signature = new Buffer(parts[2], 'base64');
+      var signed = parts[0] + '.' + parts[1];
+    } catch (err) {
+      this.content = {
+        exp: 0
+      };
+    }
+  }
+  return content;
+}
 
 Oidc.retrieveCredential = function(credentialToken, credentialSecret) {
   return OAuth.retrieveCredential(credentialToken, credentialSecret);

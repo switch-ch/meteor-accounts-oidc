@@ -11,6 +11,7 @@ Template.configureLoginServiceDialogForOidc.fields = function () {
     { property: 'serverUrl', label: 'OIDC Server URL'},
     { property: 'authorizationEndpoint', label: 'Authorization Endpoint'},
     { property: 'tokenEndpoint', label: 'Token Endpoint'},
-    { property: 'userinfoEndpoint', label: 'Userinfo Endpoint'}
+    { property: 'userinfoEndpoint', label: 'Userinfo Endpoint'},
+    { property: 'idTokenWhitelistFields', label: 'Id Token Fields'}
   ];
 };
