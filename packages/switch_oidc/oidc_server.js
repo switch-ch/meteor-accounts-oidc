@@ -83,14 +83,8 @@ var getToken = function (query) {
 };
 
 var getUserInfo = function (accessToken) {
-  const jwt = require('jwt-simple');
-  var accessTokenDecoded = jwt.decode(accessToken);
-
-  var debug = false;
-  var config = getConfiguration();
-
   if (config.userinfoEndpoint) {
-    return getUserInfoFromEndpoint(config, accessToken, debug);
+    return getUserInfoFromEndpoint(accessToken);
   }
   else {
     return getUserInfoFromToken(accessToken);
@@ -127,7 +121,10 @@ Oidc.retrieveCredential = function (credentialToken, credentialSecret) {
   return OAuth.retrieveCredential(credentialToken, credentialSecret);
 };
 
-var getUserInfoFromEndpoint = function (config, accessToken, debug) {
+var getUserInfoFromEndpoint = function (accessToken) {
+  var debug = false;
+  var config = getConfiguration();
+  
   var serverUserinfoEndpoint = config.serverUrl + config.userinfoEndpoint;
   var response;
   try {
