@@ -4,9 +4,9 @@ OAuth.registerService('oidc', 2, null, function (query) {
 
   var debug = false;
   var token = getToken(query);
-  //console.log('XXX: register token:', token);
+  if (debug) console.log('XXX: register token:', token);
 
-  var accessToken = token.access_token;
+  var accessToken = token.access_token || token.id_token;
   var expiresAt = (+new Date) + (1000 * parseInt(token.expires_in, 10));
 
   var userinfo = getUserInfo(accessToken);
@@ -83,8 +83,10 @@ var getToken = function (query) {
 };
 
 var getUserInfo = function (accessToken) {
+  var config = getConfiguration();
+
   if (config.userinfoEndpoint) {
-    return getUserInfoFromEndpoint(accessToken);
+    return getUserInfoFromEndpoint(accessToken, config);
   }
   else {
     return getUserInfoFromToken(accessToken);
@@ -121,10 +123,9 @@ Oidc.retrieveCredential = function (credentialToken, credentialSecret) {
   return OAuth.retrieveCredential(credentialToken, credentialSecret);
 };
 
-var getUserInfoFromEndpoint = function (accessToken) {
+var getUserInfoFromEndpoint = function (accessToken, config) {
   var debug = false;
-  var config = getConfiguration();
-  
+
   var serverUserinfoEndpoint = config.serverUrl + config.userinfoEndpoint;
   var response;
   try {
@@ -154,7 +155,6 @@ var getUserInfoFromEndpoint = function (accessToken) {
 
 var getUserInfoFromToken = function (accessToken) {
   var tokenContent = getTokenContent(accessToken);
-
   var mainEmail = tokenContent.email || tokenContent.emails[0];
 
   return {
