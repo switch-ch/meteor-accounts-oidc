@@ -8,7 +8,8 @@ Package.describe({
 Package.onUse(function(api) {
   api.use('oauth2@1.1.0', ['client', 'server']);
   api.use('oauth@1.1.0', ['client', 'server']);
-  api.use('http@1.1.0', ['server']);
+  api.use('http@1.1.0', 'server');
+  api.use('underscore', 'server');
   api.use('underscore@1.0.0', 'client');
   api.use('templating@1.1.0', 'client');
   api.use('random@1.0.0', 'client');
