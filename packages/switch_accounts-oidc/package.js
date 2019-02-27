@@ -1,12 +1,13 @@
 Package.describe({
   summary: "OpenID Connect (OIDC) for Meteor accounts",
-  version: "1.0.5",
+  version: "1.0.6",
   name: "switch:accounts-oidc",
   git: "https://github.com/switch-ch/meteor-accounts-oidc.git",
 
 });
 
 Package.onUse(function(api) {
+  api.use('underscore@1.0.0', ['server', 'client']);
   api.use('accounts-base@1.2.0', ['client', 'server']);
   // Export Accounts (etc) to packages using this one.
   api.imply('accounts-base', ['client', 'server']);
