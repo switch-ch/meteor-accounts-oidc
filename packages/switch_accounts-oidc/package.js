@@ -7,7 +7,7 @@ Package.describe({
 });
 
 Package.onUse(function(api) {
-  api.use('underscore', 'server');
+  api.use('underscore@1.0.0', ['server', 'client']);
   api.use('accounts-base@1.2.0', ['client', 'server']);
   // Export Accounts (etc) to packages using this one.
   api.imply('accounts-base', ['client', 'server']);
