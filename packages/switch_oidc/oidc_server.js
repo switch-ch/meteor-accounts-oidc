@@ -9,7 +9,7 @@ OAuth.registerService('oidc', 2, null, function (query) {
   var accessToken = token.access_token || token.id_token;
   var expiresAt = (+new Date) + (1000 * parseInt(token.expires_in, 10));
 
-  var userinfo = getUserInfo(accessToken);
+  var userinfo = getUserInfo(accessToken, expiresAt);
   if (debug) console.log('XXX: userinfo:', userinfo);
 
   var serviceData = {};
@@ -82,11 +82,11 @@ var getToken = function (query) {
   }
 };
 
-var getUserInfo = function (accessToken) {
+var getUserInfo = function (accessToken, expiresAt) {
   var config = getConfiguration();
 
   if (config.userinfoEndpoint) {
-    return getUserInfoFromEndpoint(accessToken, config);
+    return getUserInfoFromEndpoint(accessToken, config, expiresAt);
   }
   else {
     return getUserInfoFromToken(accessToken);
@@ -123,7 +123,7 @@ Oidc.retrieveCredential = function (credentialToken, credentialSecret) {
   return OAuth.retrieveCredential(credentialToken, credentialSecret);
 };
 
-var getUserInfoFromEndpoint = function (accessToken, config) {
+var getUserInfoFromEndpoint = function (accessToken, config, expiresAt) {
   var debug = false;
 
   var serverUserinfoEndpoint = config.serverUrl + config.userinfoEndpoint;
