@@ -30,13 +30,18 @@ OAuth.registerService('oidc', 2, null, function (query) {
   if (debug) console.log('XXX: serviceData:', serviceData);
 
   var profile = {};
-  profile.name = userinfo.name;
-  profile.email = userinfo.email;
+  profile.firstName = userinfo.firstName;
+  profile.lastName = userinfo.lastName;
+  var email = {
+    address: userinfo.email,
+    verified: true
+  }
+
   if (debug) console.log('XXX: profile:', profile);
 
   return {
     serviceData: serviceData,
-    options: { profile: profile }
+    options: { profile: profile, emails: [email] }
   };
 });
 
