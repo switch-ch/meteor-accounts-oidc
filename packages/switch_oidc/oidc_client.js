@@ -36,20 +36,20 @@ Oidc.requestCredential = function (options, credentialRequestCompleteCallback) {
   }
 
   var loginUrl = config.serverUrl + config.authorizationEndpoint;
+
   // check if the loginUrl already contains a "?"
-  var first = !loginUrl.indexOf('?') === -1;
-  for (var k in options) {
-    if (first) {
-      loginUrl += '?';
-      first = false;
-    }
-    else {
-      loginUrl += '&'
-    }
-    loginUrl += encodeURIComponent(k) + '=' + encodeURIComponent(options[k]);
+  var hasExistingParams = loginUrl.indexOf('?') !== -1;
+
+  if (!hasExistingParams) {
+    loginUrl += '?';
+  }
+  else {
+    loginUrl += '&'
   }
 
-  //console.log('XXX: loginURL: ' + loginUrl)
+  loginUrl += Object.keys(options).map(function(key) {
+      return [key, options[key]].map(encodeURIComponent).join("=");
+  }).join("&");
 
   options.popupOptions = options.popupOptions || {};
   var popupOptions = {
